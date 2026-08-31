@@ -1,0 +1,36 @@
+# .NET 8 / C# Build Artifacts
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/.idea/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Database & SQLite files
+*.db
+*.db-shm
+*.db-wal
+
+# Node.js / Next.js / Frontend
+**/node_modules/
+**/src/frontend/.next/
+**/src/frontend/out/
+**/src/frontend/build/
+**/src/frontend/.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment & Secret files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS Generated Files
+.DS_Store
+Thumbs.db

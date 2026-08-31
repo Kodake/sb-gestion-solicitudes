@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend-api:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: sb_gestion_solicitudes_api
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=database-server;Database=SB_GestionSolicitudes;User Id=sa;Password=SuperSecretPassword123!;MultipleActiveResultSets=true;TrustServerCertificate=True
+      - JWT_SECRET=${JWT_SECRET:?Debe configurar la variable de entorno JWT_SECRET con una clave de al menos 32 caracteres}
+    depends_on:
+      - database-server
+    restart: always
+
+  frontend-web:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    container_name: sb_gestion_solicitudes_web
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
+    depends_on:
+      - backend-api
+    restart: always
+
+  database-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sb_sql_server
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SuperSecretPassword123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql/data
+    restart: always
+
+volumes:
+  sqldata:
